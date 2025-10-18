@@ -27,7 +27,10 @@ run = "docker run --rm -it -e PGPASSWORD=$DB_PASS --net=host postgres:17 psql -p
 
 [tasks."db:migrate"]
 dir = "./db"
-run = "PGPASSWORD=$DB_PASS psqldef -p 5432 -h $DB_HOST -U $DB_USER $DB_NAME --enable-drop-table < schema.sql"
+run = [
+  "PGPASSWORD=$DB_PASS psqldef -p 5432 -h $DB_HOST -U $DB_USER $DB_NAME --enable-drop-table < schema.sql",
+	"PGPASSWORD=$DB_PASS psql -p 5432 -h $DB_HOST -U $DB_USER $DB_NAME -f trigger.sql"
+]
 
 [tasks."db:reset"]
 dir = "./db"
