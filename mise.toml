@@ -1,0 +1,38 @@
+[tools]
+node = "lts"
+pnpm = "latest"
+
+[tasks.fmt]
+depends = ["fmt:core", "fmt:web"]
+
+[tasks.docker]
+dir = "."
+run = "docker compose up -d"
+
+[tasks."dev"]
+dir = "."
+run = "pnpm run dev"
+
+[tasks."gen:kysely"]
+dir = '.'
+run = 'npm run gen:kysely'
+
+[tasks.db]
+run = "docker run --rm -it -e PGPASSWORD=$DB_PASS --net=host postgres:17 psql -p 5432 -h $DB_HOST -U $DB_USER $DB_NAME"
+
+[tasks."db:clean"]
+dir = "./db"
+run = "docker run --rm -it -e PGPASSWORD=$DB_PASS --net=host postgres:17 psql -p 5432 -h $DB_HOST -U $DB_USER $DB_NAME -c \"DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;\""
+
+
+[tasks."db:migrate"]
+dir = "./db"
+run = "PGPASSWORD=$DB_PASS psqldef -p 5432 -h $DB_HOST -U $DB_USER $DB_NAME --enable-drop-table < schema.sql"
+
+[tasks."db:reset"]
+dir = "./db"
+run = [
+  "mise run db:clean",
+  "mise run db:migrate",
+  "docker run --rm -it -e PGPASSWORD=$DB_PASS --net=host -v ./:/db postgres psql -p 5432 -h $DB_HOST -U $DB_USER $DB_NAME -f /db/seed.sql"
+]
