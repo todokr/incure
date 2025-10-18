@@ -6,12 +6,9 @@ import { ServerRouter } from "react-router";
 import { isbot } from "isbot";
 import type { RenderToPipeableStreamOptions } from "react-dom/server";
 import { renderToPipeableStream } from "react-dom/server";
-import { dbListener } from "@/lib/event.server";
+import { setupConsumer } from "./consumer";
 
-await dbListener.connect();
-await dbListener.listen("event_channel", (payload) =>
-	console.log("listened", payload),
-);
+await setupConsumer();
 
 export const streamTimeout = 5_000;
 
