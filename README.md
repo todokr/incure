@@ -78,6 +78,61 @@ Make sure to deploy the output of `npm run build`
 │   └── server/    # Server-side code
 ```
 
+## Project Structure
+
+```
+.
+├── app/                    # Main application code
+│   ├── consumer/          # Event consumer setup
+│   │   └── index.ts       # Event subscriber initialization → feature/automation
+│   ├── routes/            # React Router routes
+│   │   └── home.tsx       # Home page route
+│   ├── entry.client.tsx   # Client-side entry point
+│   ├── entry.server.tsx   # Server-side entry point
+│   ├── root.tsx           # Root component
+│   ├── routes.ts          # Route configuration
+│   ├── app.css           # Global styles
+│   └── slackApi.tsx       # Slack API integration
+├── feature/               # Feature modules
+│   ├── general/           # General types and utilities
+│   │   ├── color.type.ts
+│   │   └── user.type.ts
+│   └── incident/          # Incident management
+│       ├── incident.repository.ts
+│       ├── incident.service.ts
+│       ├── incident.type.ts
+│       └── index.ts
+├── gen/                   # Generated files
+│   └── dbTypes.ts         # Database type definitions
+├── lib/                   # Shared libraries
+│   ├── db.server.ts       # Database connection
+│   └── event.server.ts    # Event publishing/subscribing
+├── db/                    # Database related files
+│   ├── schema.sql         # Database schema
+│   ├── seed.sql           # Sample data
+│   └── trigger.sql        # Database triggers for events
+├── public/                # Static assets
+│   └── favicon.ico
+├── compose.yml            # Docker Compose configuration
+├── Dockerfile             # Docker build configuration
+├── mise.toml              # Development environment setup
+├── package.json           # Node.js dependencies
+├── pnpm-lock.yaml         # Package lock file
+├── pnpm-workspace.yaml    # Workspace configuration
+├── react-router.config.ts # React Router configuration
+├── tsconfig.json          # TypeScript configuration
+└── vite.config.ts         # Vite build configuration
+```
+
+## Architecture
+
+This application uses:
+- **React Router** for routing and SSR
+- **PostgreSQL** with event-driven architecture using NOTIFY/LISTEN
+- **TypeScript** for type safety
+- **Event-driven communication** between components
+- **Docker** for containerization
+
 ## Styling
 
 This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.

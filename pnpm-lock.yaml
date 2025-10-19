@@ -38,6 +38,9 @@ importers:
       slack-edge:
         specifier: ^1.3.12
         version: 1.3.12
+      zod:
+        specifier: ^4.1.12
+        version: 4.1.12
     devDependencies:
       '@react-router/dev':
         specifier: ^7.9.2
