@@ -1,8 +1,16 @@
 import * as z from "zod";
 
+export const eventType = {
+	incidentDeclared: "incident:declared",
+	incidentUpdated: "incident:updated",
+	probeEmpty: "probe:empty",
+} as const;
+
+export type EventType = (typeof eventType)[keyof typeof eventType];
+
 /** when the incident is first declared */
 const incidentDeclaredSchema = z.object({
-	type: z.literal("incident:declared"),
+	type: z.literal(eventType.incidentDeclared),
 	tenantId: z.string(),
 	epochMills: z.number(),
 	body: z.object({
@@ -11,10 +19,11 @@ const incidentDeclaredSchema = z.object({
 		}),
 	}),
 });
+type IncidentDeclaredEvent = z.infer<typeof incidentDeclaredSchema>;
 
 /** when the incident is updated */
 const incidentUpdatedSchema = z.object({
-	type: z.literal("incident:updated"),
+	type: z.literal(eventType.incidentUpdated),
 	tenantId: z.string(),
 	epochMills: z.number(),
 	body: z.object({
@@ -26,7 +35,8 @@ const incidentUpdatedSchema = z.object({
 
 /** an empty probe event to maintenance */
 const probeEmptySchema = z.object({
-	type: z.literal("probe:empty"),
+	type: z.literal(eventType.probeEmpty),
+	tenantId: z.string(),
 	epochMills: z.number(),
 	body: z.object({}),
 });
@@ -39,4 +49,4 @@ const eventSchema = z.discriminatedUnion("type", [
 
 type Event = z.infer<typeof eventSchema>;
 
-export { eventSchema, type Event };
+export { eventSchema, type Event, type IncidentDeclaredEvent };

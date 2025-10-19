@@ -9,10 +9,7 @@ type Config = {
 class EventPublisher<T extends z.ZodTypeAny> {
 	private client: Client;
 
-	constructor(
-		private config: Config,
-		private eventSchema: T,
-	) {
+	constructor(private config: Config) {
 		this.client = new Client(config.db);
 		this.client.connect().catch((err) => {
 			console.error("DB connection error:", err);

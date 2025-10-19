@@ -32,14 +32,6 @@ function handler(event: z.infer<typeof eventSchema>): PromiseLike<void> {
 async function setupConsumer() {
 	try {
 		await eventSubscriber.connect(handler);
-
-		// 起動時の動作確認用
-		await eventPublisher.publish({
-			type: "probe:empty",
-			epochMills: new Date().getTime(),
-			body: {},
-		});
-
 		console.log("Event consumer setup completed");
 	} catch (error) {
 		console.error("Failed to setup event consumer:", error);
@@ -59,7 +51,7 @@ if (!globalThis.__eventSubscriber) {
 }
 
 const eventPublisher =
-	globalThis.__eventPublisher ?? new EventPublisher(config, eventSchema);
+	globalThis.__eventPublisher ?? new EventPublisher(config);
 if (!globalThis.__eventPublisher) {
 	globalThis.__eventPublisher = eventPublisher;
 }
