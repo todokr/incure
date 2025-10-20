@@ -1,4 +1,4 @@
-import type { Color } from "feature/general/color.type";
+import type { Color } from "@/model/color.model";
 
 export type Incident = {
 	id: string;

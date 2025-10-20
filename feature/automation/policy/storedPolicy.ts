@@ -1,6 +1,6 @@
 import type { EventType } from "@/model/event.model";
 import type { ActionPlan } from "../action";
-import type { ConditionGroup } from "../condition";
+import type { ConditionGroup } from "./condition";
 
 /** stored policy structure */
 export type StoredPolicy = {

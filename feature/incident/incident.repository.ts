@@ -1,5 +1,5 @@
 import { db } from "@/lib/db.server";
-import type { Incident } from "./incident.type";
+import type { Incident } from "@/model/incident.model";
 
 export async function list(): Promise<Incident[]> {
 	const rows = await db

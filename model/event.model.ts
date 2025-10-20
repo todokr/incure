@@ -8,12 +8,12 @@ export const eventType = {
 
 export type EventType = (typeof eventType)[keyof typeof eventType];
 
-/** when the incident is first declared */
+/** Incident Decrared: when the incident is first declared */
 const incidentDeclaredSchema = z.object({
 	type: z.literal(eventType.incidentDeclared),
 	tenantId: z.string(),
 	epochMills: z.number(),
-	body: z.object({
+	metadata: z.object({
 		incident: z.object({
 			id: z.string(),
 		}),
@@ -21,24 +21,24 @@ const incidentDeclaredSchema = z.object({
 });
 type IncidentDeclaredEvent = z.infer<typeof incidentDeclaredSchema>;
 
-/** when the incident is updated */
+/** Incident Updated: when the incident is updated */
 const incidentUpdatedSchema = z.object({
 	type: z.literal(eventType.incidentUpdated),
 	tenantId: z.string(),
 	epochMills: z.number(),
-	body: z.object({
+	metadata: z.object({
 		incident: z.object({
 			id: z.string(),
 		}),
 	}),
 });
 
-/** an empty probe event to maintenance */
+/** Probe Empty: an empty probe event to maintenance */
 const probeEmptySchema = z.object({
 	type: z.literal(eventType.probeEmpty),
 	tenantId: z.string(),
 	epochMills: z.number(),
-	body: z.object({}),
+	metadata: z.object({}),
 });
 
 const eventSchema = z.discriminatedUnion("type", [
